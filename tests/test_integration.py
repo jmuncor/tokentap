@@ -25,7 +25,7 @@ class TestMiniMaxProxyIntegration:
         """A request with /minimax/ prefix should be routed to api.minimax.io."""
         body = json.dumps(
             {
-                "model": "MiniMax-M2.5",
+                "model": "MiniMax-M3",
                 "messages": [{"role": "user", "content": "hello"}],
             }
         ).encode()
@@ -41,7 +41,7 @@ class TestMiniMaxProxyIntegration:
         self.proxy._process_request(body, cleaned, provider)
         assert len(self.events) == 1
         assert self.events[0]["provider"] == "minimax"
-        assert self.events[0]["model"] == "MiniMax-M2.5"
+        assert self.events[0]["model"] == "MiniMax-M3"
 
     @pytest.mark.asyncio
     async def test_openai_not_affected_by_minimax(self):

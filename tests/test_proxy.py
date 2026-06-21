@@ -100,7 +100,7 @@ class TestProcessRequest:
 
     def test_minimax_request_parsed_as_openai_compat(self):
         body = {
-            "model": "MiniMax-M2.5",
+            "model": "MiniMax-M3",
             "messages": [
                 {"role": "user", "content": "Hello MiniMax"},
             ],
@@ -112,7 +112,7 @@ class TestProcessRequest:
         )
         assert len(self.events) == 1
         assert self.events[0]["provider"] == "minimax"
-        assert self.events[0]["model"] == "MiniMax-M2.5"
+        assert self.events[0]["model"] == "MiniMax-M3"
         assert self.events[0]["tokens"] > 0
 
     def test_minimax_multimodal_content(self):
@@ -137,7 +137,7 @@ class TestProcessRequest:
 
     def test_minimax_system_message(self):
         body = {
-            "model": "MiniMax-M2.5",
+            "model": "MiniMax-M3",
             "messages": [
                 {"role": "system", "content": "You are helpful"},
                 {"role": "user", "content": "Hi"},
@@ -155,7 +155,7 @@ class TestProcessRequest:
 
     def test_minimax_no_callback_no_error(self):
         proxy = ProxyServer(port=9999, on_request=None)
-        body = {"model": "MiniMax-M2.5", "messages": []}
+        body = {"model": "MiniMax-M3", "messages": []}
         # Should not raise
         proxy._process_request(
             json.dumps(body).encode(),
