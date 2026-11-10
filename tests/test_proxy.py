@@ -170,3 +170,23 @@ class TestProcessRequest:
             "minimax",
         )
         assert len(self.events) == 0
+
+    def test_openai_mixed_content_parts_no_crash(self):
+        """Non-dict items in a multimodal content list must not crash parsing."""
+        body = {
+            "model": "m",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": ["hello", {"type": "text", "text": "hi"}],
+                },
+            ],
+        }
+        # Should not raise AttributeError; request must still be recorded.
+        self.proxy._process_request(
+            json.dumps(body).encode(),
+            "/v1/chat/completions",
+            "openai",
+        )
+        assert len(self.events) == 1
+        assert self.events[0]["tokens"] > 0

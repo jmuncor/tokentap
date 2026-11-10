@@ -167,7 +167,9 @@ class ProxyServer:
             elif isinstance(content, list):
                 # Handle multimodal content
                 text_parts = [
-                    p.get("text", "") for p in content if p.get("type") == "text"
+                    p.get("text", "")
+                    for p in content
+                    if isinstance(p, dict) and p.get("type") == "text"
                 ]
                 combined = " ".join(text_parts)
                 result["messages"].append({"role": role, "content": combined})
